@@ -1,4 +1,4 @@
-# Redux API Resource creator (redus-resx)
+# Redux API Resource creator (redux-resx)
 
 Yet another Redux action creators, a reducer and middleware for resource-based APIs.
 
