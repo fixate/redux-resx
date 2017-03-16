@@ -89,7 +89,6 @@ resources: combineReducers({
 ```javascript
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { select as selectResource } from 'redux-resx';
 
 import { user as userResx } from '../../resources';
 
