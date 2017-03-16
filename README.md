@@ -177,7 +177,7 @@ export default function createApplicationStore() {
 
 ### Other middleware
 
-- redux-resx-feathers-middleware - uses `feathers-client` to make requests (TODO)
+- [redux-resx-feathers-middleware](https://github.com/fixate/redux-resx-feathers-middleware) - uses `feathers-client` to make requests 
 - redux-resx-saga - sagas to handle resource actions (TODO)
 
 ## Future Ideas
