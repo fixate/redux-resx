@@ -1,5 +1,6 @@
 import createActions from './createActions';
 import * as types from './types';
+import { isResxAction } from './';
 
 const { encodeURIComponent, fetch } = global;
 
@@ -37,12 +38,6 @@ const API_ACTIONS = {
   [types.RESOURCE_REMOVE_REQUEST]: ['DELETE', 'removeReceive', 'removeError'],
 };
 
-const ACTION_NAMES = Object.keys(API_ACTIONS);
-
-function isApiAction(action) {
-  return ACTION_NAMES.indexOf(action.type) > -1;
-}
-
 function substitute(url, params) {
   if (!params) return url;
   const urlParts = url.split('/');
@@ -73,7 +68,7 @@ export default function createApiMiddleware(opts) {
   }
 
   return () => next => (action) => {
-    if (!isApiAction(action)) {
+    if (!isResxAction(action)) {
       return next(action);
     }
 

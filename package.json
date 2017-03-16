@@ -1,6 +1,6 @@
 {
   "name": "redux-resx",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "(Yet another) Redux action creators, a reducer and middleware for resource-based APIs",
   "main": "index.js",
   "repository": "https://github.com/fixate/redux-rest",
@@ -10,7 +10,8 @@
     "compile": "babel --presets es2015,stage-0 -d . src/",
     "prepublish": "npm run compile",
     "watch": "watch -p '**/*.js' -c 'npm run compile'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm *.js"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",

@@ -1,12 +1,30 @@
 import createActions from './createActions';
 import createReducer from './createReducer';
+import * as types from './types';
 
-export * as types from './types';
+export {
+  createActions,
+  createReducer,
+  types,
+};
 
 const defaultOptions = {
   baseSelector: s => s.resources,
   reducer: s => s,
 };
+
+const ACTION_NAMES = [
+  types.RESOURCE_FIND_REQUEST,
+  types.RESOURCE_GET_REQUEST,
+  types.RESOURCE_CREATE_REQUEST,
+  types.RESOURCE_UPDATE_REQUEST,
+  types.RESOURCE_PATCH_REQUEST,
+  types.RESOURCE_REMOVE_REQUEST,
+];
+
+export function isResxAction(action) {
+  return ACTION_NAMES.indexOf(action.type) > -1;
+}
 
 export default function createResource(opts) {
   const options = Object.assign({}, defaultOptions, opts);
