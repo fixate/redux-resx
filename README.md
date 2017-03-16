@@ -145,6 +145,7 @@ export default connect(mapStateToProps, {
   findUsers,
   resetUsers,
 })(Home);
+```
 
 ## Middlewares
 
