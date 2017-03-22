@@ -13,17 +13,16 @@ const defaultOptions = {
   reducer: s => s,
 };
 
-const ACTION_NAMES = [
-  types.RESOURCE_FIND_REQUEST,
-  types.RESOURCE_GET_REQUEST,
-  types.RESOURCE_CREATE_REQUEST,
-  types.RESOURCE_UPDATE_REQUEST,
-  types.RESOURCE_PATCH_REQUEST,
-  types.RESOURCE_REMOVE_REQUEST,
-];
+export function isRequestAction(action) {
+  return types.requestTypes.indexOf(action.type) > -1;
+}
 
-export function isResxAction(action) {
-  return ACTION_NAMES.indexOf(action.type) > -1;
+export function isSuccessAction(action) {
+  return types.successTypes.indexOf(action.type) > -1;
+}
+
+export function isErrorAction(action) {
+  return types.errorTypes.indexOf(action.type) > -1;
 }
 
 export default function createResource(opts) {

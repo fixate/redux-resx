@@ -56,19 +56,19 @@ export default function createResourceActionCreators(options) {
     },
 
     patch(id, data, extra) {
-      return { type: types.RESOURCE_UPDATE_REQUEST, resxns, id, data, options, ...extra };
+      return { type: types.RESOURCE_PATCH_REQUEST, resxns, id, data, options, ...extra };
     },
 
     patchReceive(result) {
-      return { type: types.RESOURCE_UPDATE_SUCCESS, resxns, result };
+      return { type: types.RESOURCE_PATCH_SUCCESS, resxns, result };
     },
 
     patchError(error) {
-      return { type: types.RESOURCE_UPDATE_FAILURE, resxns, error };
+      return { type: types.RESOURCE_PATCH_FAILURE, resxns, error };
     },
 
-    remove(id, extra) {
-      return { type: types.RESOURCE_REMOVE_REQUEST, resxns, id, options, ...extra };
+    remove(id, data, extra) {
+      return { type: types.RESOURCE_REMOVE_REQUEST, resxns, id, data, options, ...extra };
     },
 
     removeReceive(result) {

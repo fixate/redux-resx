@@ -1,6 +1,6 @@
 import createActions from './createActions';
 import * as types from './types';
-import { isResxAction } from './';
+import { isRequestAction } from './';
 
 const { encodeURIComponent, fetch } = global;
 
@@ -68,7 +68,7 @@ export default function createApiMiddleware(opts) {
   }
 
   return () => next => (action) => {
-    if (!isResxAction(action)) {
+    if (!isRequestAction(action)) {
       return next(action);
     }
 
