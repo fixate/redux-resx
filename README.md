@@ -1,5 +1,7 @@
 # Redux API Resource creator (redux-resx)
 
+[![Build Status](https://travis-ci.org/fixate/redux-resx.svg?branch=master)](https://travis-ci.org/fixate/redux-resx)
+
 Yet another Redux action creators, a reducer and middleware for resource-based APIs.
 
 ## Installation
@@ -107,7 +109,7 @@ const Home = React.createClass({
     const { users, user } = this.props;
 
     return (
-      <div>        
+      <div>
         {users ? JSON.stringify(users) : null}
         {user ? JSON.stringify(user) : null}
       </div>
@@ -180,12 +182,13 @@ export default function createApplicationStore() {
 
 ### Other middleware
 
-- [redux-resx-feathers-middleware](https://github.com/fixate/redux-resx-feathers-middleware) - uses `feathers-client` to make requests 
+- [redux-resx-feathers-middleware](https://github.com/fixate/redux-resx-feathers-middleware) - uses `feathers-client` to make requests
 - redux-resx-saga - sagas to handle resource actions (TODO)
 
-## TODO 
+## TODO
 
 * Tests
+* Example
 * Return a promise which resolves/rejects if receiver action creator fires (difficult to match request and receive calls... hmmm)
 
 ## Future Ideas
