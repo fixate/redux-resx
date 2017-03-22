@@ -96,18 +96,19 @@ const Home = React.createClass({
 //....
 
   componentWillMount() {
-    const { findUsers, resetUsers } = this.props;
+    const { getUser, findUsers, resetUsers } = this.props;
     // XXX: Optional, you'll get old results before new ones are loaded if you don't do this.
     resetUsers();
     findUsers({ status: 'active' }); // params of request
+    getUser(123).then(...); // id=123 NB: only if middleware returns a promise
   },
 
   render() {
-    const { users } = this.props;
+    const { users, user } = this.props;
 
     return (
-      <div>
-        <button onClick={this.handleDoneClick}>Test</button>
+      <div>        
+        {users ? JSON.stringify(users) : null}
         {user ? JSON.stringify(user) : null}
       </div>
     );
@@ -134,14 +135,16 @@ function mapStateToProps(state) {
 
   return {
     users: items,
+    user: entity,
     isBusy,
   };
 }
 
-const { find: findUsers, reset: resetUsers } = userResx.actions;
+const { find: findUsers, get: getUser, reset: resetUsers } = userResx.actions;
 
 export default connect(mapStateToProps, {
   findUsers,
+  getUser,
   resetUsers,
 })(Home);
 ```
@@ -177,8 +180,13 @@ export default function createApplicationStore() {
 
 ### Other middleware
 
-- redux-resx-feathers-middleware - uses `feathers-client` to make requests (TODO)
+- [redux-resx-feathers-middleware](https://github.com/fixate/redux-resx-feathers-middleware) - uses `feathers-client` to make requests 
 - redux-resx-saga - sagas to handle resource actions (TODO)
+
+## TODO 
+
+* Tests
+* Return a promise which resolves/rejects if receiver action creator fires (difficult to match request and receive calls... hmmm)
 
 ## Future Ideas
 
