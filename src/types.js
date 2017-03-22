@@ -23,3 +23,30 @@ export const RESOURCE_PATCH_FAILURE = '@resource/PATCH_FAILURE';
 export const RESOURCE_REMOVE_REQUEST = '@resource/REMOVE';
 export const RESOURCE_REMOVE_SUCCESS = '@resource/REMOVE_SUCCESS';
 export const RESOURCE_REMOVE_FAILURE = '@resource/REMOVE_FAILURE';
+
+export const requestTypes = [
+  types.RESOURCE_FIND_REQUEST,
+  types.RESOURCE_GET_REQUEST,
+  types.RESOURCE_CREATE_REQUEST,
+  types.RESOURCE_UPDATE_REQUEST,
+  types.RESOURCE_PATCH_REQUEST,
+  types.RESOURCE_REMOVE_REQUEST,
+];
+
+export const successTypes = [
+  types.RESOURCE_FIND_SUCCESS,
+  types.RESOURCE_GET_SUCCESS,
+  types.RESOURCE_CREATE_SUCCESS,
+  types.RESOURCE_UPDATE_SUCCESS,
+  types.RESOURCE_PATCH_SUCCESS,
+  types.RESOURCE_REMOVE_SUCCESS,
+];
+
+export const errorTypes = [
+  types.RESOURCE_FIND_ERROR,
+  types.RESOURCE_GET_ERROR,
+  types.RESOURCE_CREATE_ERROR,
+  types.RESOURCE_UPDATE_ERROR,
+  types.RESOURCE_PATCH_ERROR,
+  types.RESOURCE_REMOVE_ERROR,
+];
