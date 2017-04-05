@@ -11,6 +11,7 @@ export {
 const defaultOptions = {
   baseSelector: s => s.resources,
   reducer: s => s,
+  resultReducers: {},
 };
 
 export function isRequestAction(action) {

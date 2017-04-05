@@ -28,6 +28,8 @@ function resourceReducer(options, state = initialState, action) {
     return { ...state, ...nextState, options };
   }
 
+  const { resultReducers } = options;
+
   switch (action.type) {
     case types.RESOURCE_RESET:
       return initialState;
@@ -36,18 +38,22 @@ function resourceReducer(options, state = initialState, action) {
       return extend({ isBusy: true, isFinding: true, items: [], lastError: undefined });
 
     case types.RESOURCE_FIND_SUCCESS:
-      return extend({
-        hasLoaded: true,
-        isBusy: false,
-        isFinding: false,
-        items: state.items.concat(action.result),
-      });
+      return resultReducers.find ?
+        resultReducers.find(state, action, options) :
+        extend({
+          hasLoaded: true,
+          isBusy: false,
+          isFinding: false,
+          items: action.result,
+        });
 
     case types.RESOURCE_GET_REQUEST:
       return extend({ isBusy: true, isGetting: true, entity: undefined, lastError: undefined });
 
     case types.RESOURCE_GET_SUCCESS:
-      return extend({ isBusy: false, isGetting: false, entity: action.result });
+      return resultReducers.get ?
+        resultReducers.get(state, action, options) :
+        extend({ isBusy: false, isGetting: false, entity: action.result });
 
     case types.RESOURCE_FIND_FAILURE:
       return extend({ lastError: action.error, isFinding: false, isBusy: false });
@@ -63,36 +69,44 @@ function resourceReducer(options, state = initialState, action) {
       return extend({ lastError: action.error, isRemoving: false, isBusy: false });
 
     case types.RESOURCE_CREATE_SUCCESS:
-      return extend({
-        lastError: undefined,
-        entity: action.result,
-        isCreating: false,
-        isBusy: false,
-      });
+      return resultReducers.create ?
+        resultReducers.create(state, action, options) :
+        extend({
+          lastError: undefined,
+          entity: action.result,
+          isCreating: false,
+          isBusy: false,
+        });
 
     case types.RESOURCE_UPDATE_SUCCESS:
-      return extend({
-        lastError: undefined,
-        entity: action.result,
-        isUpdating: false,
-        isBusy: false,
-      });
+      return resultReducers.update ?
+        resultReducers.update(state, action, options) :
+        extend({
+          lastError: undefined,
+          entity: action.result,
+          isUpdating: false,
+          isBusy: false,
+        });
 
     case types.RESOURCE_PATCH_SUCCESS:
-      return extend({
-        lastError: undefined,
-        entity: action.result,
-        isPatching: false,
-        isBusy: false,
-      });
+      return resultReducers.patch ?
+        resultReducers.patch(state, action, options) :
+        extend({
+          lastError: undefined,
+          entity: action.result,
+          isPatching: false,
+          isBusy: false,
+        });
 
     case types.RESOURCE_REMOVE_SUCCESS:
-      return extend({
-        lastError: undefined,
-        entity: action.result,
-        isRemoving: false,
-        isBusy: false,
-      });
+      return resultReducers.remove ?
+        resultReducers.remove(state, action, options) :
+        extend({
+          lastError: undefined,
+          entity: action.result,
+          isRemoving: false,
+          isBusy: false,
+        });
 
     default:
       return state;
