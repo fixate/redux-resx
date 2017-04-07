@@ -56,7 +56,7 @@ function resourceReducer(options, state = initialState, action) {
         extend({ isBusy: false, isGetting: false, entity: action.result });
 
     case types.RESOURCE_FIND_FAILURE:
-      return extend({ lastError: action.error, isFinding: false, isBusy: false });
+      return extend({ hasLoaded: true, lastError: action.error, isFinding: false, isBusy: false });
     case types.RESOURCE_GET_FAILURE:
       return extend({ lastError: action.error, isGetting: false, isBusy: false });
     case types.RESOURCE_CREATE_FAILURE:
