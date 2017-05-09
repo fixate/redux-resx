@@ -1,6 +1,6 @@
 import * as types from './types';
 
-const initialState = {
+export const initialState = {
   hasLoaded: false,
   isBusy: false,
   isFinding: false,
@@ -14,12 +14,29 @@ const initialState = {
 };
 
 export default function createReducer(options) {
-  return (state = initialState, action) => {
+  return (state = {}, action) => {
     if (!action.resxns || action.resxns !== options.name) {
       return state;
     }
 
-    return options.reducer(resourceReducer(options, state, action), action);
+    if (action.type === types.RESOURCE_DESTROY_NS) {
+      // Omit the whole ns key
+      return Object.keys(state).reduce((acc, k) => (
+        action.ns !== k ? Object.assign(acc, { [k]: state[k] }) : acc
+      ), {});
+    }
+
+    const { ns } = action;
+
+    const newNSState = options.reducer(
+      resourceReducer(options, state[ns], action), action
+    );
+
+    if (newNSState !== state[ns]) {
+      return Object.assign({}, state, { [ns]: newNSState });
+    }
+
+    return state;
   };
 }
 

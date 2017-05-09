@@ -8,7 +8,7 @@ const fakeProvider = (result, error) => spy((url) => {
 });
 
 test('middleware', t => {
-  const actions = createActions({ name: 'myNS', url: '/fakers' });
+  const actions = createActions('testns', { name: 'myNS', url: '/fakers' });
   const nextFn = spy();
 
   let provider = fakeProvider(

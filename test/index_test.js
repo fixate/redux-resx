@@ -1,11 +1,20 @@
 import test from 'tape';
-import createResource, { isRequestAction, isSuccessAction, isErrorAction, types } from '../src';
+import
+createResource,
+  {
+    isRequestAction,
+    isSuccessAction,
+    isErrorAction,
+    types,
+    DEFAULT_NS,
+} from '../src';
+import { initialState } from '../src/createReducer';
 
 test('createResource', t => {
   const resource = createResource({ name: 'ANYTHING' });
   t.deepEquals(
     Object.keys(resource),
-    ['actions', 'reducer', 'name', 'selector'],
+    ['reducer', 'name', 'create'],
     'Returns resource components'
   );
 
@@ -13,6 +22,50 @@ test('createResource', t => {
 
   t.end();
 });
+
+test('resource.create()', t => {
+  let fakeState;
+  const resource = createResource({ name: 'ANYTHING' });
+
+  const defaultR = resource.create();
+  t.equals(defaultR.name, 'ANYTHING', 'Correct name');
+  t.equals(defaultR.namespace, DEFAULT_NS, 'Default namespace used')
+
+  t.deepEquals(defaultR.actions.find({ test: 1 }).ns, DEFAULT_NS, 'Correct namespace for actions');
+
+  fakeState = { resources: { ANYTHING: {} } };
+  t.deepEquals(defaultR.selector(fakeState), initialState, 'Returns a "fake" initial state');
+  fakeState = {
+    resources: {
+      ANYTHING: {
+        [DEFAULT_NS]: { test: 'passed' },
+      },
+    },
+  };
+  t.deepEquals(defaultR.selector(fakeState), { test: 'passed' }, 'Selects the state with namespace');
+
+  const specialNS = '@special';
+  const specialR = resource.create(specialNS);
+  t.equals(specialR.name, 'ANYTHING', 'Correct name');
+  t.equals(specialR.namespace, specialNS, 'Correct namespace used')
+
+  t.deepEquals(specialR.actions.find({ test: 1 }).ns, specialNS, 'Correct namespace for actions');
+  fakeState = {
+    resources: {
+      ANYTHING: {
+        [DEFAULT_NS]: { test: 'failed' },
+        [specialNS]: { test: 'passed' },
+      },
+    },
+  };
+  t.deepEquals(specialR.selector(fakeState), { test: 'passed' }, 'Selects the state with namespace');
+
+
+
+
+  t.end();
+});
+
 
 test('isRequestAction', t => {
   types.requestTypes.forEach((type) => {
