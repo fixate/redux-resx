@@ -10,18 +10,6 @@ Yet another Redux action creators, a reducer and middleware for resource-based A
 npm install --save redux-resx
 ```
 
-## Why
-
-TODO: basically I wanted something I understood that is a better version of the way we
-already do things.
-
-## Features
-
-* No magic (`redux` is the real hero)
-* State Selectors
-* Decoupled
-* Namespaced actions (not even sure if this is good/bad)
-
 ## Usage
 
 ### Resource definition
@@ -88,11 +76,21 @@ resources: combineReducers({
 
 ### Component
 
+*Please see the NB comments*
+
 ```javascript
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { user as userResx } from '../../resources';
+import { user as userResx } from '../resources';
+
+// NB: New in 1.0.0+
+// *************************************************************************
+// You need to provide a namespace for your 'instance' (any string) that you want to use.
+// This is so you can call a resource in multiple components without interferance.
+const myUserResx = userResx.create('@HOME');
+// If you omit the namespace, a default one will be used (essentially the same behaviour prior to 1.0.0)
+// const myUserResx = userResx.create();
 
 const Home = React.createClass({
 //....
@@ -100,10 +98,17 @@ const Home = React.createClass({
   componentWillMount() {
     const { getUser, findUsers, resetUsers } = this.props;
     // XXX: Optional, you'll get old results before new ones are loaded if you don't do this.
+    // New in 1.0.0: If your resource is only used in this component and you destroy on unmount,
+    // you definitely/obviously won't need to use reset.
     resetUsers();
     findUsers({ status: 'active' }); // params of request
     getUser(123).then(...); // id=123 NB: only if middleware returns a promise
   },
+
+  // NB: New in 1.0.0 - will remove the namespaced data entirely
+  componentWillUnmount() {
+    this.props.destroyResx();
+  }
 
   render() {
     const { users, user } = this.props;
@@ -120,6 +125,7 @@ const Home = React.createClass({
 function mapStateToProps(state) {
   // Select the resource state
   const {
+    hasLoaded, // true when find has been loaded before
     isBusy, // true when any of the following are true
     isFinding,
     isGetting,
@@ -142,12 +148,13 @@ function mapStateToProps(state) {
   };
 }
 
-const { find: findUsers, get: getUser, reset: resetUsers } = userResx.actions;
+const { find: findUsers, get: getUser, reset: resetUsers, destroy: destroyResx } = myUserResx.actions;
 
 export default connect(mapStateToProps, {
   findUsers,
   getUser,
   resetUsers,
+  destroyResx,
 })(Home);
 ```
 

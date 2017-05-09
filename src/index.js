@@ -1,5 +1,5 @@
 import createActions from './createActions';
-import createReducer from './createReducer';
+import createReducer, { initialState } from './createReducer';
 import * as types from './types';
 
 export {
@@ -8,11 +8,18 @@ export {
   types,
 };
 
+export const DEFAULT_NS = '@DEFAULT';
+
 const defaultOptions = {
   baseSelector: s => s.resources,
   reducer: s => s,
   resultReducers: {},
 };
+
+let instanceId = 0;
+function nextInstanceId() {
+  return instanceId++;
+}
 
 export function isRequestAction(action) {
   return types.requestTypes.indexOf(action.type) > -1;
@@ -28,16 +35,29 @@ export function isErrorAction(action) {
 
 export default function createResource(opts) {
   const options = Object.assign({}, defaultOptions, opts);
-  const selector = (state) => {
+  const selector = ns => (state) => {
     const base = options.baseSelector(state);
-    return base ? base[options.name] : null;
+    // XXX: Selector will return the initial state even if it doesn't actually exist in the store.
+    // This is because I don't want the resource.create method to need
+    // the dispatch method and do a seperate initialize action.
+    // This state will be initialized when the first action is called.
+    // This could cause unforseen problems, so the above is the contingincy plan
+    // for now I want to try this approach and understand implications, if any.
+    // I just hope it doesn't confuse anyone.
+    return base ? base[options.name][ns] || initialState : null;
   };
 
   return {
-    actions: createActions(options),
     reducer: createReducer(options),
     name: options.name,
-    selector,
+    create(namespace = DEFAULT_NS) {
+      return {
+        name: options.name,
+        namespace,
+        actions: createActions(namespace, options),
+        selector: selector(namespace),
+      };
+    },
   };
 }
 

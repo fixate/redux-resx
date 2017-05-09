@@ -72,7 +72,7 @@ export default function createApiMiddleware(opts) {
       return next(action);
     }
 
-    const actions = createActions({ name: action.resxns });
+    const actions = createActions(action.ns, { name: action.resxns });
     const { data, params, request, id, options: actionOptions } = action;
     const { url, params: baseParams, request: baseRequest } = actionOptions;
     const [method, receiverMethod, errorMethod] = API_ACTIONS[action.type];
