@@ -11,6 +11,7 @@ export const initialState = {
   isRemoving: false,
   items: [],
   entity: undefined,
+  lastError: undefined,
 };
 
 export default function createReducer(options) {
@@ -85,6 +86,9 @@ function resourceReducer(options, state = initialState, action) {
     case types.RESOURCE_REMOVE_FAILURE:
       return extend({ lastError: action.error, isRemoving: false, isBusy: false });
 
+    case types.RESOURCE_CREATE_REQUEST:
+      return extend({ isBusy: true, isCreating: true, entity: undefined, lastError: undefined });
+
     case types.RESOURCE_CREATE_SUCCESS:
       return resultReducers.create ?
         resultReducers.create(state, action, options) :
@@ -94,6 +98,9 @@ function resourceReducer(options, state = initialState, action) {
           isCreating: false,
           isBusy: false,
         });
+
+    case types.RESOURCE_UPDATE_REQUEST:
+      return extend({ isBusy: true, isUpdating: true, entity: undefined, lastError: undefined });
 
     case types.RESOURCE_UPDATE_SUCCESS:
       return resultReducers.update ?
@@ -105,6 +112,9 @@ function resourceReducer(options, state = initialState, action) {
           isBusy: false,
         });
 
+    case types.RESOURCE_PATCH_REQUEST:
+      return extend({ isBusy: true, isPatching: true, entity: undefined, lastError: undefined });
+
     case types.RESOURCE_PATCH_SUCCESS:
       return resultReducers.patch ?
         resultReducers.patch(state, action, options) :
@@ -114,6 +124,10 @@ function resourceReducer(options, state = initialState, action) {
           isPatching: false,
           isBusy: false,
         });
+
+
+    case types.RESOURCE_REMOVE_REQUEST:
+      return extend({ isBusy: true, isRemoving: true, entity: undefined, lastError: undefined });
 
     case types.RESOURCE_REMOVE_SUCCESS:
       return resultReducers.remove ?

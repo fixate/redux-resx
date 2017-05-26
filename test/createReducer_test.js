@@ -6,7 +6,8 @@ import createActions from '../src/createActions';
 test('Resource Reducer', (context) => {
   context.test('defaults', (t) => {
     const extraReducer = spy(s => s);
-    const reducer = createReducer({ name: 'myNS', reducer: extraReducer, resultReducers: {} });
+    const reducerOpts = { name: 'myNS', reducer: extraReducer, resultReducers: {} };
+    const reducer = createReducer(reducerOpts);
     const actions = createActions('testns', { name: 'myNS' });
     let state;
 
