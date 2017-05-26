@@ -72,6 +72,9 @@ export default function createApiMiddleware(opts) {
       return next(action);
     }
 
+    // Allow action to propogate.
+    next(action);
+
     const actions = createActions(action.ns, { name: action.resxns });
     const { data, params, request, id, options: actionOptions } = action;
     const { url, params: baseParams, request: baseRequest } = actionOptions;
