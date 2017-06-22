@@ -53,7 +53,7 @@ function resourceReducer(options, state = initialState, action) {
       return initialState;
 
     case types.RESOURCE_FIND_REQUEST:
-      return extend({ isBusy: true, isFinding: true, items: [], lastError: undefined });
+      return extend({ isBusy: true, isFinding: true, lastError: undefined });
 
     case types.RESOURCE_FIND_SUCCESS:
       return resultReducers.find ?
