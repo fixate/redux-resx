@@ -194,10 +194,8 @@ export default function createApplicationStore() {
 
 ## TODO
 
-* Tests
 * Example
-* Return a promise which resolves/rejects if receiver action creator fires (difficult to match request and receive calls... hmmm)
 
 ## Future Ideas
 
-* Middleware that implements a cache using state
+* Middleware (separate package) that implements a decoupled cache using state
