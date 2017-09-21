@@ -1,8 +1,8 @@
 import createActions from './createActions';
 import * as types from './types';
-import { isRequestAction } from './';
+import {isRequestAction} from './';
 
-const { encodeURIComponent, fetch } = global;
+const {encodeURIComponent, fetch} = global;
 
 const defaultOptions = {
   baseUrl: '',
@@ -20,7 +20,8 @@ function pathJoin(...paths) {
         p = p.slice(0, p.length - 1);
       }
       return p;
-    }).join('/');
+    })
+    .join('/');
 }
 
 function getQueryString(query) {
@@ -41,9 +42,9 @@ const API_ACTIONS = {
 function substitute(url, params) {
   if (!params) return url;
   const urlParts = url.split('/');
-  return urlParts.map(part => (
-    part[0] === ':' ? encodeURIComponent((params[part.substring(1)] || part)) : part)
-  ).join('/');
+  return urlParts
+    .map(part => (part[0] === ':' ? encodeURIComponent(params[part.substring(1)] || part) : part))
+    .join('/');
 }
 
 export default function createApiMiddleware(opts) {
@@ -67,7 +68,7 @@ export default function createApiMiddleware(opts) {
     return `${result}?${queryStr}`;
   }
 
-  return () => next => (action) => {
+  return () => next => action => {
     if (!isRequestAction(action)) {
       return next(action);
     }
@@ -75,23 +76,24 @@ export default function createApiMiddleware(opts) {
     // Allow action to propogate.
     next(action);
 
-    const actions = createActions(action.ns, { name: action.resxns });
-    const { data, params, request, id, options: actionOptions } = action;
-    const { url, params: baseParams, request: baseRequest } = actionOptions;
+    const actions = createActions(action.ns, {name: action.resxns});
+    const {data, params, request, id, options: actionOptions} = action;
+    const {url, params: baseParams, request: baseRequest} = actionOptions;
     const [method, receiverMethod, errorMethod] = API_ACTIONS[action.type];
 
-    return options.provider(getUrl(url, { id }, Object.assign({}, baseParams, params)), {
-      method,
-      body: JSON.stringify(data),
-      ...Object.assign({}, baseRequest, request),
-    })
+    return options
+      .provider(getUrl(url, {id}, Object.assign({}, baseParams, params)), {
+        method,
+        body: JSON.stringify(data),
+        ...Object.assign({}, baseRequest, request),
+      })
       .then(r => r.json())
-      .then((result) => {
+      .then(result => {
         const receiverFn = actions[receiverMethod];
         next(receiverFn(result));
         return result;
       })
-      .catch((err) => {
+      .catch(err => {
         const errorFn = actions[errorMethod];
         next(errorFn(err));
         return Promise.reject(err);

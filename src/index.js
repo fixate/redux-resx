@@ -1,12 +1,8 @@
 import createActions from './createActions';
-import createReducer, { initialState } from './createReducer';
+import createReducer, {initialState} from './createReducer';
 import * as types from './types';
 
-export {
-  createActions,
-  createReducer,
-  types,
-};
+export {createActions, createReducer, types};
 
 export const DEFAULT_NS = '@DEFAULT';
 
@@ -15,11 +11,6 @@ const defaultOptions = {
   reducer: s => s,
   resultReducers: {},
 };
-
-let instanceId = 0;
-function nextInstanceId() {
-  return instanceId++;
-}
 
 export function isRequestAction(action) {
   return types.requestTypes.indexOf(action.type) > -1;
@@ -35,7 +26,7 @@ export function isErrorAction(action) {
 
 export default function createResource(opts) {
   const options = Object.assign({}, defaultOptions, opts);
-  const selector = ns => (state) => {
+  const selector = ns => state => {
     const base = options.baseSelector(state);
     // XXX: Selector will return the initial state even if it doesn't actually exist in the store.
     // This is because I don't want the resource.create method to need
@@ -62,9 +53,8 @@ export default function createResource(opts) {
 }
 
 export function reducer(resources) {
-  return Object.keys(resources)
-    .reduce((acc, r) => {
-      const { name, reducer } = resources[r];
-      return Object.assign(acc, { [name]: reducer });
-    }, {});
+  return Object.keys(resources).reduce((acc, r) => {
+    const {name, reducer} = resources[r];
+    return Object.assign(acc, {[name]: reducer});
+  }, {});
 }
