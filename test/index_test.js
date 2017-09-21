@@ -10,10 +10,24 @@ import {initialState} from '../src/createReducer';
 
 test('createResource', t => {
   const resource = createResource({name: 'ANYTHING'});
-  t.deepEquals(Object.keys(resource), ['reducer', 'name', 'create'], 'Returns resource components');
+  t.deepEquals(
+    Object.keys(resource),
+    ['reducer', 'name', 'default', 'create'],
+    'Returns resource components'
+  );
 
   t.equals(resource.name, 'ANYTHING', 'Returns name of resource');
 
+  t.end();
+});
+
+test('resource.default()', t => {
+  const resource = createResource({name: 'ANYTHING'});
+  const instance = resource.default();
+  t.equals(instance.namespace, DEFAULT_NS, 'Default namespace used for default instance');
+
+  const instance2 = resource.default();
+  t.equals(instance, instance2, 'Reuses the default instance');
   t.end();
 });
 

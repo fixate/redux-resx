@@ -38,9 +38,17 @@ export default function createResource(opts) {
     return base ? base[options.name][ns] || initialState : null;
   };
 
+  let _instance = null;
+
   return {
     reducer: createReducer(options),
     name: options.name,
+    default() {
+      if (_instance) {
+        return _instance;
+      }
+      return (_instance = this.create());
+    },
     create(namespace = DEFAULT_NS) {
       return {
         name: options.name,
