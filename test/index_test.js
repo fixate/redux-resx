@@ -9,14 +9,21 @@ import createResource, {
 import {initialState} from '../src/createReducer';
 
 test('createResource', t => {
-  const resource = createResource({name: 'ANYTHING'});
+  const options = {name: 'ANYTHING'};
+
+  const resource = createResource(options);
   t.deepEquals(
     Object.keys(resource),
-    ['reducer', 'name', 'default', 'create'],
+    ['reducer', 'name', 'default', 'create', 'options'],
     'Returns resource components'
   );
 
   t.equals(resource.name, 'ANYTHING', 'Returns name of resource');
+  t.equals(
+    resource.options.baseSelector({resources: 'testing123'}),
+    'testing123',
+    'Default base selector'
+  );
 
   t.end();
 });

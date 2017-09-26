@@ -57,6 +57,7 @@ export default function createResource(opts) {
         selector: selector(namespace),
       };
     },
+    options,
   };
 }
 
