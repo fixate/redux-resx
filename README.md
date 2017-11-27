@@ -158,6 +158,29 @@ export default connect(mapStateToProps, {
 })(Home);
 ```
 
+## Selector
+
+Each `resx` has a selector function which can be used to select the resource from the state store.
+
+A `resx` has the following structure:
+
+```javascript
+// Initial structure of resx
+{
+  hasLoaded: false, // Has the resource loaded before (has find returned a result and items populated)
+  isBusy: false, // true if any operation is running on this resx, otherwise false
+  isFinding: false, // true if find call is busy, otherwise false
+  isGetting: false, // true if get call is busy, otherwise false
+  isCreating: false, // true if create call is busy, otherwise false
+  isUpdating: false, // true if update call is busy, otherwise false
+  isPatching: false, // true if patch call is busy, otherwise false
+  isRemoving: false, // true if remove call is busy, otherwise false
+  items: [], // The result of a find call
+  entity: undefined, // The result of the last get, create, patch, update and remove call
+  lastError: undefined, // The result of the call if it was an error
+}
+```
+
 ## Middlewares
 
 The middleware's job is to "handle" the actions coming in from resource action creators. This
