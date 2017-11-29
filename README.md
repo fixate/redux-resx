@@ -4,6 +4,10 @@
 
 Yet another Redux action creators, a reducer and middleware for resource-based APIs.
 
+`resx = shortening for resource`
+
+Based on the async actions pattern in redux (https://redux.js.org/docs/advanced/AsyncActions.html)
+
 ## Installation
 
 ```shell
