@@ -95,6 +95,8 @@ import { user as userResx } from '../resources';
 const myUserResx = userResx.create('@HOME');
 // If you omit the namespace, a default one will be used (essentially the same behaviour prior to 1.0.0)
 // const myUserResx = userResx.create();
+// Using the default method, returns a singleton instance for reuse
+// const myUserResx = userResx.default();
 
 const Home = React.createClass({
 //....
