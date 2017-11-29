@@ -16,7 +16,9 @@ npm install --save redux-resx
 
 ## Usage
 
-### Resource definition
+### Resource Definition
+
+A resource is a grouping of redux reducers, actions and selectors for your api endpoint. You define a unique name for it and the url. You can also add your own reducer to augment the state at the "mountpoint" on the state store.
 
 ```javascript
 // somewhere like src/resources/user.js
