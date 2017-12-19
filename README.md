@@ -4,6 +4,10 @@
 
 Yet another Redux action creators, a reducer and middleware for resource-based APIs.
 
+`resx = shortening for resource`
+
+Based on the async actions pattern in redux (https://redux.js.org/docs/advanced/AsyncActions.html)
+
 ## Installation
 
 ```shell
@@ -12,7 +16,9 @@ npm install --save redux-resx
 
 ## Usage
 
-### Resource definition
+### Resource Definition
+
+A resource is a grouping of redux reducers, actions and selectors for your api endpoint. You define a unique name for it and the url. You can also add your own reducer to augment the state at the "mountpoint" on the state store.
 
 ```javascript
 // somewhere like src/resources/user.js
@@ -91,6 +97,8 @@ import { user as userResx } from '../resources';
 const myUserResx = userResx.create('@HOME');
 // If you omit the namespace, a default one will be used (essentially the same behaviour prior to 1.0.0)
 // const myUserResx = userResx.create();
+// Using the default method, returns a singleton instance for reuse
+// const myUserResx = userResx.default();
 
 const Home = React.createClass({
 //....
@@ -156,6 +164,29 @@ export default connect(mapStateToProps, {
   resetUsers,
   destroyResx,
 })(Home);
+```
+
+## Selector
+
+Each `resx` has a selector function which can be used to select the resource from the state store.
+
+A `resx` has the following structure:
+
+```javascript
+// Initial structure of resx
+{
+  hasLoaded: false, // Has the resource loaded before (has find returned a result and items populated)
+  isBusy: false, // true if any operation is running on this resx, otherwise false
+  isFinding: false, // true if find call is busy, otherwise false
+  isGetting: false, // true if get call is busy, otherwise false
+  isCreating: false, // true if create call is busy, otherwise false
+  isUpdating: false, // true if update call is busy, otherwise false
+  isPatching: false, // true if patch call is busy, otherwise false
+  isRemoving: false, // true if remove call is busy, otherwise false
+  items: [], // The result of a find call
+  entity: undefined, // The result of the last get, create, patch, update and remove call
+  lastError: undefined, // The result of the call if it was an error
+}
 ```
 
 ## Middlewares
