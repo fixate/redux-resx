@@ -35,7 +35,7 @@ export default function createResource(opts) {
     // This could cause unforseen problems, so the above is the contingincy plan
     // for now I want to try this approach and understand implications, if any.
     // I just hope it doesn't confuse anyone.
-    return base ? base[options.name][ns] || initialState : null;
+    return base ? base[options.name][ns] || Object.assign({}, initialState) : null;
   };
 
   let _instance = null;
