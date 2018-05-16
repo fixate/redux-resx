@@ -1,6 +1,7 @@
 import createActions from './createActions';
 import createReducer, {initialState} from './createReducer';
 import * as types from './types';
+import {warning} from './utils';
 
 export {createActions, createReducer, types};
 
@@ -62,8 +63,12 @@ export default function createResource(opts) {
 }
 
 export function reducer(resources) {
-  return Object.keys(resources).reduce((acc, r) => {
-    const {name, reducer} = resources[r];
+  return Object.keys(resources).reduce((acc, key) => {
+    const {name, reducer} = resources[key];
+    if (typeof reducer !== 'function') {
+      warning(`Key '${key}' was not a valid resource when creating reducer object`);
+      return acc;
+    }
     return Object.assign(acc, {[name]: reducer});
   }, {});
 }

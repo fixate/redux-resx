@@ -4,9 +4,9 @@ import reduxMiddleware from '../src/middleware';
 import createActions from '../src/createActions';
 
 const fakeProvider = (result, error) =>
-  spy(url => {
-    return error ? Promise.reject(result) : Promise.resolve(result);
-  });
+  spy(
+    url => (error ? Promise.reject(result) : Promise.resolve({json: () => Promise.resolve(result)}))
+  );
 
 test('middleware', t => {
   const actions = createActions('testns', {name: 'myNS', url: '/fakers'});
