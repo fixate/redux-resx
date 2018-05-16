@@ -1,6 +1,6 @@
 {
   "name": "redux-resx",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description":
     "(Yet another) Redux action creators, a reducer and middleware for resource-based APIs",
   "main": "index.js",
